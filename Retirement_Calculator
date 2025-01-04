@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Savings Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e2f9e2;
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Retirement Savings Calculator</h1>
+
+        <div class="input-group">
+            <label for="currentAge">Current Age</label>
+            <input type="number" id="currentAge" value="19">
+        </div>
+
+        <div class="input-group">
+            <label for="retirementAge">Retirement Age</label>
+            <input type="number" id="retirementAge" value="65">
+        </div>
+
+        <div class="input-group">
+            <label for="desiredIncome">Desired Annual Retirement Income</label>
+            <input type="number" id="desiredIncome" value="100000">
+        </div>
+
+        <div class="input-group">
+            <label for="inflationRate">Inflation Rate</label>
+            <input type="number" id="inflationRate" step="0.01" value="0.02">
+        </div>
+
+        <div class="input-group">
+            <label for="annualReturn">Expected Annual Return</label>
+            <input type="number" id="annualReturn" step="0.01" value="0.1">
+        </div>
+
+        <div class="input-group">
+            <label for="currentSavings">Current Savings</label>
+            <input type="number" id="currentSavings" value="3000">
+        </div>
+
+        <button class="button" onclick="calculateRetirementSavings()">Calculate Savings</button>
+
+        <div class="result" id="result">
+            <p><strong>Income Needed at Retirement (Adjusted):</strong> $<span id="adjustedIncome">248661.13</span></p>
+            <p><strong>Total Retirement Savings:</strong> $<span id="totalSavings">2455598.25</span></p>
+            <p><strong>Monthly Savings Required:</strong> $<span id="monthlySavings">211.82</span></p>
+            <p><strong>Total Savings Needed:</strong> $<span id="totalNeeded">245661.13</span></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateRetirementSavings() {
+            let currentAge = parseInt(document.getElementById('currentAge').value);
+            let retirementAge = parseInt(document.getElementById('retirementAge').value);
+            let desiredIncome = parseFloat(document.getElementById('desiredIncome').value);
+            let inflationRate = parseFloat(document.getElementById('inflationRate').value);
+            let annualReturn = parseFloat(document.getElementById('annualReturn').value);
+            let currentSavings = parseFloat(document.getElementById('currentSavings').value);
+
+            // Calculate years until retirement
+            let yearsUntilRetirement = retirementAge - currentAge;
+
+            // Calculate income needed at retirement (adjusted for inflation)
+            let adjustedIncome = desiredIncome * Math.pow(1 + inflationRate, yearsUntilRetirement);
+
+            // Calculate total retirement savings (using a simple formula for now)
+            let totalSavings = adjustedIncome / (annualReturn / 12);
+
+            // Calculate monthly savings required
+            let monthsUntilRetirement = yearsUntilRetirement * 12;
+            let totalNeeded = totalSavings - currentSavings;
+
+            let monthlySavings = totalNeeded / monthsUntilRetirement;
+
+            // Display results
+            document.getElementById('adjustedIncome').textContent = adjustedIncome.toFixed(2);
+            document.getElementById('totalSavings').textContent = totalSavings.toFixed(2);
+            document.getElementById('monthlySavings').textContent = monthlySavings.toFixed(2);
+            document.getElementById('totalNeeded').textContent = totalNeeded.toFixed(2);
+        }
+    </script>
+
+</body>
+</html>
